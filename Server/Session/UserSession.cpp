@@ -1,75 +1,69 @@
-
+// Session.cpp
 #include "UserSession.h"
-#include "UserSessionManager.h"
+#include <iostream>
 
- UserSession::UserSession(tcp::socket socket)
-    : _socket(std::move(socket)), _buffer{}, _id(0)
-{     
+UserSession::UserSession(boost::asio::io_context& io_context)
+    : _socket(io_context),
+    _strand(io_context.get_executor())
+{
 }
-
 
 void UserSession::Start()
 {
-    OnRead();
+    std::cout << "[Session] Start ID: " << _id << std::endl;
+    DoRead();
 }
 
-void UserSession::OnRead() 
+void UserSession::DoRead()
 {
     auto self = shared_from_this();
-    _socket.async_read_some(
-        boost::asio::buffer(_buffer),
-        [this, self](boost::system::error_code ec, std::size_t length)
-        {
+    _socket.async_read_some(boost::asio::buffer(_buffer),
+        boost::asio::bind_executor(_strand, [this, self](boost::system::error_code ec, std::size_t length) {
             if (!ec)
             {
-                OnRead();
+                std::string received(_buffer.data(), length);
+                std::cout << "[Recv] " << received << std::endl;
+
+                Send("Echo: " + received); // Echo
+                DoRead();
             }
-            else
-            {
-                OnDisconnected(); // ²÷±è Ã³¸®
-            }
+            }));
+}
+
+void UserSession::Send(const std::string& msg)
+{
+    auto self = shared_from_this();
+    boost::asio::post(_strand, [this, self, msg]() {
+        bool writing = !_sendQueue.empty();
+        _sendQueue.push_back(msg);
+
+        if (!writing)
+        {
+            DoWrite(_sendQueue.front());
+        }
         });
 }
 
-void UserSession::Write(std::size_t length)
+void UserSession::DoWrite(const std::string& msg)
 {
     auto self = shared_from_this();
-    boost::asio::async_write(
-        _socket,
-        boost::asio::buffer(_buffer, length),
-        [this, self](boost::system::error_code ec, std::size_t /*length*/)
-        {
+    boost::asio::async_write(_socket, boost::asio::buffer(msg),
+        boost::asio::bind_executor(_strand, [this, self](boost::system::error_code ec, std::size_t /*length*/) {
             if (!ec)
             {
-                OnRead(); // ´Ù½Ã ÀÐ±â ´ë±â
-            }            
-        });
+                _sendQueue.pop_front();
+                if (!_sendQueue.empty())
+                {
+                    DoWrite(_sendQueue.front());
+                }
+            }
+            }));
 }
-
-void UserSession::OnDisconnected()
-{
-    std::cout << "Session disconnected: " << _id << std::endl;
-    UserSessionManager::Instance().RemoveSession(_id);
-}
-
-uint64_t UserSession::GetId() const
-{
-    return _id;
-}
-
-void UserSession::SetId(uint64_t id)
-{
-    _id = id;
-}
-
-void UserSession::Send(const std::string& message)
-{
-
-}
-
-
 
 void UserSession::Tick()
 {
-    std::cout << "[Tick] " << _id << std::endl;
+    std::cout << "[Tick] Session: " << _id << std::endl;
 }
+
+uint64_t UserSession::GetId() const { return _id; }
+void UserSession::SetId(uint64_t id) { _id = id; }
