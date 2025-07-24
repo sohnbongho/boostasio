@@ -21,10 +21,16 @@
     <ClCompile Include="Session\AsyncTcpServer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Session\Session.cpp">
+    <ClCompile Include="Session\UserSession.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Session\UserSessionManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\UserWorkerThread.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\UserThreadPoolManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +38,16 @@
     <ClInclude Include="Session\AsyncTcpServer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Session\Session.h">
+    <ClInclude Include="Session\UserSession.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Session\UserSessionManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\UserWorkerThread.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\UserThreadPoolManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

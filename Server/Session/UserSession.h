@@ -5,15 +5,15 @@
 #include <array>
 
 using boost::asio::ip::tcp;
-class Session : public std::enable_shared_from_this<Session>
+class UserSession : public std::enable_shared_from_this<UserSession>
 {
 private:
 	tcp::socket _socket;
 	std::array<char, 1024> _buffer;
-	uint64_t _userId;
+	uint64_t _id;
 
 public :
-	Session(tcp::socket socket);
+	UserSession(tcp::socket socket);
 
 	void Start();
 	void OnRead();
@@ -23,4 +23,5 @@ public :
 	void SetId(uint64_t id);
 	void Send(const std::string& message);
 	void OnDisconnected();
+	void Tick();
 };

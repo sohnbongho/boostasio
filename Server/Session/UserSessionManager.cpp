@@ -18,7 +18,7 @@ void UserSessionManager::RemoveSession(uint64_t sessionId)
     _sessions.erase(sessionId);
 }
 
-std::shared_ptr<Session> UserSessionManager::GetSession(uint64_t sessionId)
+std::shared_ptr<UserSession> UserSessionManager::GetSession(uint64_t sessionId)
 {
     std::lock_guard<std::mutex> lock(_mutex);
     auto it = _sessions.find(sessionId);
@@ -41,7 +41,7 @@ uint64_t UserSessionManager::CreateAndStartSession(boost::asio::ip::tcp::socket 
 {
     std::lock_guard<std::mutex> lock(_mutex);
 
-    auto session = std::make_shared<Session>(std::move(socket));
+    auto session = std::make_shared<UserSession>(std::move(socket));
     auto id = GenerateId();
     session->SetId(id);
     _sessions[id] = session;

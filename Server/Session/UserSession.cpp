@@ -1,19 +1,19 @@
 
-#include "Session.h"
+#include "UserSession.h"
 #include "UserSessionManager.h"
 
- Session::Session(tcp::socket socket)
-    : _socket(std::move(socket)), _buffer{}, _userId(0)
+ UserSession::UserSession(tcp::socket socket)
+    : _socket(std::move(socket)), _buffer{}, _id(0)
 {     
 }
 
 
-void Session::Start()
+void UserSession::Start()
 {
     OnRead();
 }
 
-void Session::OnRead() 
+void UserSession::OnRead() 
 {
     auto self = shared_from_this();
     _socket.async_read_some(
@@ -31,7 +31,7 @@ void Session::OnRead()
         });
 }
 
-void Session::Write(std::size_t length)
+void UserSession::Write(std::size_t length)
 {
     auto self = shared_from_this();
     boost::asio::async_write(
@@ -46,23 +46,30 @@ void Session::Write(std::size_t length)
         });
 }
 
-uint64_t Session::GetId() const
+void UserSession::OnDisconnected()
 {
-    return _userId;
+    std::cout << "Session disconnected: " << _id << std::endl;
+    UserSessionManager::Instance().RemoveSession(_id);
 }
 
-void Session::SetId(uint64_t id)
+uint64_t UserSession::GetId() const
 {
-    _userId = id;
+    return _id;
 }
 
-void Session::Send(const std::string& message)
+void UserSession::SetId(uint64_t id)
+{
+    _id = id;
+}
+
+void UserSession::Send(const std::string& message)
 {
 
 }
 
-void Session::OnDisconnected()
+
+
+void UserSession::Tick()
 {
-    std::cout << "Session disconnected: " << _userId << std::endl;
-    UserSessionManager::Instance().RemoveSession(_userId);
+    std::cout << "[Tick] " << _id << std::endl;
 }
