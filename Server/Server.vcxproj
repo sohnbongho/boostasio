@@ -136,10 +136,12 @@
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Session\AsyncTcpServer.cpp" />
     <ClCompile Include="Session\Session.cpp" />
+    <ClCompile Include="Session\UserSessionManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Session\AsyncTcpServer.h" />
     <ClInclude Include="Session\Session.h" />
+    <ClInclude Include="Session\UserSessionManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
