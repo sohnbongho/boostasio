@@ -43,3 +43,6 @@
 Server/.vs/*
 Server/Server/x64/*
 
+DummyClient/x64/*
+
+

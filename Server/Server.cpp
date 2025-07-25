@@ -15,7 +15,7 @@ int main()
     try
     {
         IoContextPool userPool(2);
-        AsyncTcpServer userServer(userPool, 1234); // 반드시 Accept()를 시작해야 함
+        AsyncTcpServer userServer(userPool, 12345); // 반드시 Accept()를 시작해야 함
 
         /*g_monsterPool.AddMonster(std::make_shared<MonsterObject>(1, "Goblin"));
         g_monsterPool.AddMonster(std::make_shared<MonsterObject>(2, "Orc"));
