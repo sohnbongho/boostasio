@@ -122,6 +122,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Boost\boost_1_88_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,17 +136,19 @@
   <ItemGroup>
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Session\AsyncTcpServer.cpp" />
+    <ClCompile Include="Session\IoContextPool.cpp" />
     <ClCompile Include="Session\UserSession.cpp" />
-    <ClCompile Include="Session\UserSessionManager.cpp" />
-    <ClCompile Include="Thread\UserWorkerThread.cpp" />
-    <ClCompile Include="Thread\UserThreadPoolManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Command\GameCommandDispatcher.h" />
+    <ClInclude Include="Monster\MonsterCommandQueue.h" />
+    <ClInclude Include="Monster\MonsterObject.h" />
+    <ClInclude Include="Monster\MonsterThreadPool.h" />
     <ClInclude Include="Session\AsyncTcpServer.h" />
+    <ClInclude Include="Session\IoContextPool.h" />
     <ClInclude Include="Session\UserSession.h" />
     <ClInclude Include="Session\UserSessionManager.h" />
-    <ClInclude Include="Thread\UserWorkerThread.h" />
-    <ClInclude Include="Thread\UserThreadPoolManager.h" />
+    <ClInclude Include="Session\UserWorkerThread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

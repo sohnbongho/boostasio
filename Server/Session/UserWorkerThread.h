@@ -37,9 +37,8 @@ public:
     void Broadcast(const std::string& message)
     {
         std::lock_guard<std::mutex> lock(_mutex);
-        for (auto& kv : _sessions)
+        for (auto& [id, session] : _sessions)
         {
-            auto& session = kv.second;
             if (session)
                 session->Send(message);
         }

@@ -1,5 +1,8 @@
 ﻿#include "UserSession.h"
+#include "../Command/GameCommandDispatcher.h"
 #include <iostream>
+
+extern GameCommandDispatcher g_dispatcher;
 
 UserSession::UserSession(boost::asio::ip::tcp::socket&& socket)
     : _socket(std::move(socket)),
@@ -9,7 +12,6 @@ UserSession::UserSession(boost::asio::ip::tcp::socket&& socket)
 
 void UserSession::Start()
 {
-    std::cout << "[Session] Started (ID: " << _id << ")" << std::endl;
     DoRead();
 }
 
@@ -18,19 +20,15 @@ void UserSession::DoRead()
     auto self = shared_from_this();
     _socket.async_read_some(
         boost::asio::buffer(_buffer),
-        boost::asio::bind_executor(_strand, [this, self](boost::system::error_code ec, std::size_t length)
+        boost::asio::bind_executor(_strand,
+            [this, self](boost::system::error_code ec, std::size_t length)
             {
                 if (!ec)
                 {
                     std::string received(_buffer.data(), length);
                     std::cout << "[Recv] " << received << std::endl;
-
-                    Send("Echo: " + received);
+                    HandleCommand(received);
                     DoRead();
-                }
-                else
-                {
-                    std::cout << "[Session] Disconnected (ID: " << _id << ")" << std::endl;
                 }
             }));
 }
@@ -42,11 +40,8 @@ void UserSession::Send(const std::string& msg)
         {
             bool writing = !_sendQueue.empty();
             _sendQueue.push_back(msg);
-
             if (!writing)
-            {
                 DoWrite(_sendQueue.front());
-            }
         });
 }
 
@@ -54,20 +49,19 @@ void UserSession::DoWrite(const std::string& msg)
 {
     auto self = shared_from_this();
     boost::asio::async_write(_socket, boost::asio::buffer(msg),
-        boost::asio::bind_executor(_strand, [this, self](boost::system::error_code ec, std::size_t /*length*/)
+        boost::asio::bind_executor(_strand,
+            [this, self](boost::system::error_code ec, std::size_t /*length*/)
             {
                 if (!ec)
                 {
                     _sendQueue.pop_front();
                     if (!_sendQueue.empty())
-                    {
                         DoWrite(_sendQueue.front());
-                    }
                 }
             }));
 }
 
-void UserSession::Tick()
+void UserSession::HandleCommand(const std::string& command)
 {
-    std::cout << "[Tick] Session " << _id << std::endl;
+    g_dispatcher.Dispatch(command);
 }

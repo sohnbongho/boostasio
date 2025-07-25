@@ -24,13 +24,7 @@
     <ClCompile Include="Session\UserSession.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Session\UserSessionManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Thread\UserWorkerThread.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Thread\UserThreadPoolManager.cpp">
+    <ClCompile Include="Session\IoContextPool.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +38,22 @@
     <ClInclude Include="Session\UserSessionManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Thread\UserWorkerThread.h">
+    <ClInclude Include="Session\UserWorkerThread.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Thread\UserThreadPoolManager.h">
+    <ClInclude Include="Session\IoContextPool.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster\MonsterCommandQueue.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster\MonsterObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster\MonsterThreadPool.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\GameCommandDispatcher.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

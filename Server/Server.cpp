@@ -1,39 +1,40 @@
-﻿#include <boost/asio.hpp>
-#include <iostream>
-#include <thread>
-#include <vector>
-#include "./Session/AsyncTcpServer.h"
+﻿#include <iostream>
+#include "./Session/IoContextPool.h"
+#include "./Monster/MonsterCommandQueue.h"
+#include "./Monster/MonsterObject.h"
+#include "./Monster/MonsterThreadPool.h"
+#include "./Command/GameCommandDispatcher.h"
+#include "Session/AsyncTcpServer.h"
+
+MonsterThreadPool g_monsterPool(2);
+GameCommandDispatcher g_dispatcher;
 
 int main()
 {
     try
     {
-        const int threadCount = std::thread::hardware_concurrency();
-        boost::asio::io_context io_context;
+        IoContextPool userPool(4);
+        AsyncTcpServer userServer(userPool, 12345); // Placeholder
 
-        // work guard 유지
-        boost::asio::executor_work_guard<boost::asio::io_context::executor_type> workGuard(io_context.get_executor());
+        // 몬스터 등록
+        g_monsterPool.AddMonster(std::make_shared<MonsterObject>(1, "Goblin"));
+        g_monsterPool.AddMonster(std::make_shared<MonsterObject>(2, "Orc"));
 
-        AsyncTcpServer server(io_context, 12345);
-        std::cout << "[Server] Started on port 12345" << std::endl;
+        // Dispatcher 등록 예시
+        g_dispatcher.RegisterCommand("CHAT", [](const std::vector<std::string>& args) {
+            for (const auto& arg : args)
+                std::cout << arg << " ";
+            std::cout << std::endl;
+            });
 
-        // 스레드풀 구성
-        std::vector<std::thread> threadPool;
-        for (int i = 0; i < threadCount; ++i)
-        {
-            threadPool.emplace_back([&io_context]() {
-                io_context.run();
-                });
-        }
+        g_monsterPool.Start();
+        userPool.Run();
 
-        for (auto& t : threadPool)
-        {
-            if (t.joinable()) t.join();
-        }
+        g_monsterPool.Stop();
+        userPool.Stop();
     }
     catch (std::exception& e)
     {
-        std::cerr << "예외 발생: " << e.what() << std::endl;
+        std::cerr << "Exception: " << e.what() << std::endl;
     }
-    return 0;
 }

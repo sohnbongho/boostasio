@@ -1,12 +1,13 @@
 ﻿#include "AsyncTcpServer.h"
 #include "UserSession.h"
 #include <iostream>
+#include "UserSessionManager.h"
 
 using boost::asio::ip::tcp;
 
-AsyncTcpServer::AsyncTcpServer(boost::asio::io_context& io_context, short port)
-    : _io_context(io_context),
-    _acceptor(io_context, tcp::endpoint(tcp::v4(), port))
+AsyncTcpServer::AsyncTcpServer(IoContextPool& ioPool, short port)
+    : _ioPool(ioPool),
+    _acceptor(ioPool.GetNextIoContext(), tcp::endpoint(tcp::v4(), port))
 {
     Accept();
 }
@@ -18,7 +19,8 @@ void AsyncTcpServer::Accept()
             if (!ec)
             {
                 auto session = std::make_shared<UserSession>(std::move(socket));
-                session->SetId(rand()); // 유저 ID 할당 (임시)
+                uint64_t id = UserSessionManager::Instance().AddSession(session);
+                std::cout << "[Server] User connected. ID: " << id << std::endl;
                 session->Start();
             }
             Accept();
