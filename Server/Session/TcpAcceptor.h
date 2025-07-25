@@ -3,10 +3,10 @@
 #include <memory>
 #include "IoContextPool.h"
 
-class AsyncTcpServer
+class TcpAcceptor
 {
 public:
-    AsyncTcpServer(IoContextPool& ioPool, short port);
+    TcpAcceptor(IoContextPool& ioPool, short port);
 
 private:
     void Accept();

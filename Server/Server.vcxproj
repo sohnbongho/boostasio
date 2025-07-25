@@ -135,22 +135,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DTO\message.pb.cc" />
     <ClCompile Include="WorldServer.cpp" />
     <ClCompile Include="World\Monster\MonsterCommandQueue.cpp" />
     <ClCompile Include="World\Monster\MonsterObject.cpp" />
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="Session\AsyncTcpServer.cpp" />
+    <ClCompile Include="Session\TcpAcceptor.cpp" />
     <ClCompile Include="Session\IoContextPool.cpp" />
     <ClCompile Include="Session\User\GameCommandDispatcher.cpp" />
     <ClCompile Include="Session\User\UserSession.cpp" />
     <ClCompile Include="Session\User\UserSessionManager.cpp" />
+    <ClCompile Include="World\Monster\MonsterThreadPool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DTO\message.pb.h" />
     <ClInclude Include="WorldServer.h" />
     <ClInclude Include="World\Monster\MonsterCommandQueue.h" />
     <ClInclude Include="World\Monster\MonsterObject.h" />
     <ClInclude Include="World\Monster\MonsterThreadPool.h" />
-    <ClInclude Include="Session\AsyncTcpServer.h" />
+    <ClInclude Include="Session\TcpAcceptor.h" />
     <ClInclude Include="Session\IoContextPool.h" />
     <ClInclude Include="Session\User\GameCommandDispatcher.h" />
     <ClInclude Include="Session\User\UserSession.h" />

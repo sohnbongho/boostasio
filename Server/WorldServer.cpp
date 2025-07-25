@@ -1,6 +1,6 @@
 #include <iostream>
 #include "./Session/IoContextPool.h"
-#include "Session/AsyncTcpServer.h"
+#include "./Session/TcpAcceptor.h"
 
 #include "./World/Monster/MonsterCommandQueue.h"
 #include "./World/Monster/MonsterObject.h"
@@ -18,7 +18,7 @@ void WorldServer::Run()
     try
     {
         IoContextPool userPool(2);
-        AsyncTcpServer userServer(userPool, 12345); // 반드시 Accept()를 시작해야 함
+        TcpAcceptor userServer(userPool, 12345); // 반드시 Accept()를 시작해야 함
 
         /*g_monsterPool.AddMonster(std::make_shared<MonsterObject>(1, "Goblin"));
         g_monsterPool.AddMonster(std::make_shared<MonsterObject>(2, "Orc"));
@@ -32,7 +32,7 @@ void WorldServer::Run()
         g_monsterPool.Start();*/
 
         std::cout << "[Main] Starting IoContext Pool\n";
-        userPool.Run(); // 여기에 block
+        userPool.Run(); 
         std::cout << "[Main] End IoContext Pool\n";
 
         g_monsterPool.Stop();

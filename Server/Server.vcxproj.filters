@@ -18,7 +18,7 @@
     <ClCompile Include="Server.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Session\AsyncTcpServer.cpp">
+    <ClCompile Include="Session\TcpAcceptor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Session\User\UserSession.cpp">
@@ -42,9 +42,15 @@
     <ClCompile Include="WorldServer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="World\Monster\MonsterThreadPool.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DTO\message.pb.cc">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Session\AsyncTcpServer.h">
+    <ClInclude Include="Session\TcpAcceptor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Session\User\UserSession.h">
@@ -69,6 +75,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="WorldServer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DTO\message.pb.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
