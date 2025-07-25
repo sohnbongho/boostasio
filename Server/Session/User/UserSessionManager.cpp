@@ -10,7 +10,8 @@ uint64_t UserSessionManager::AddSession(uint64_t sessionId, std::shared_ptr<User
 void UserSessionManager::RemoveSession(uint64_t id)
 {
     std::lock_guard<std::mutex> lock(_mutex);
-    _sessions.erase(id);
+    auto count = _sessions.erase(id);
+    std::cout << "[SessionManager] RemoveSession: ID = " << id << ", Erased = " << count << std::endl;
 }
 
 std::shared_ptr<UserSession> UserSessionManager::GetSession(uint64_t id)

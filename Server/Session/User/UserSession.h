@@ -1,33 +1,31 @@
 #pragma once
 
 #include <boost/asio.hpp>
-#include <deque>
-#include <array>
 #include <memory>
 #include <string>
+
+#include "../Accessor/PacketReceiver.h"
+#include "../Accessor/PacketSender.h"
+#include "../../DTO/message.pb.h"
 
 class UserSession : public std::enable_shared_from_this<UserSession>
 {
 public:
     UserSession(uint64_t sessionId, boost::asio::ip::tcp::socket&& socket, boost::asio::io_context& context);
+    ~UserSession();
 
-    void StartSession();                       // 세션 시작 (read 시작)
-    void Send(const std::string& msg);         // 클라이언트로 메시지 보내기
-    void OnDisconnected();                     // 연결 종료 처리
-
-    uint64_t GetSessionId() const { return _sessionId; }
+    void StartSession();
+    void Send(const std::string& msg);
 
 private:
-    void DoRead();                             // 내부 read 처리
-    void DoWrite(const std::string& msg);      // 내부 write 처리
-    void HandleCommand(const std::string& command); // 수신한 명령 처리
+    void OnDisconnected();
+    void HandleMessage(const Messages::MessageWrapper& msg);
 
 private:
     uint64_t _sessionId;
+    boost::asio::ip::tcp::socket _socket;
+    boost::asio::strand<boost::asio::io_context::executor_type> _strand;
 
-    boost::asio::ip::tcp::socket _socket;                         // 소켓
-    boost::asio::strand<boost::asio::io_context::executor_type> _strand; // strand for thread safety
-
-    std::array<char, 1024> _buffer;            // 수신 버퍼
-    std::deque<std::string> _sendQueue;        // 송신 큐
+    std::shared_ptr<PacketReceiver> _receiver;
+    std::shared_ptr<PacketSender> _sender;
 };

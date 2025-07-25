@@ -135,6 +135,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DTO\message.pb.cc" />
+    <ClCompile Include="Session\Accessor\PacketReceiver.cpp" />
+    <ClCompile Include="Session\Accessor\PacketSender.cpp" />
     <ClCompile Include="WorldServer.cpp" />
     <ClCompile Include="World\Monster\MonsterCommandQueue.cpp" />
     <ClCompile Include="World\Monster\MonsterObject.cpp" />
@@ -147,6 +150,9 @@
     <ClCompile Include="World\Monster\MonsterThreadPool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DTO\message.pb.h" />
+    <ClInclude Include="Session\Accessor\PacketReceiver.h" />
+    <ClInclude Include="Session\Accessor\PacketSender.h" />
     <ClInclude Include="WorldServer.h" />
     <ClInclude Include="World\Monster\MonsterCommandQueue.h" />
     <ClInclude Include="World\Monster\MonsterObject.h" />

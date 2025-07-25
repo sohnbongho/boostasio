@@ -1,79 +1,77 @@
 ﻿#include "UserSession.h"
 #include "GameCommandDispatcher.h"
-#include <iostream>
 #include "UserSessionManager.h"
+#include "../Accessor/PacketReceiver.h"
+#include "../Accessor/PacketSender.h"
+
+#include <iostream>
 
 extern GameCommandDispatcher g_dispatcher;
 
 UserSession::UserSession(uint64_t sessionId, boost::asio::ip::tcp::socket&& socket, boost::asio::io_context& context)
-	: _socket(std::move(socket)), _buffer{}, _sessionId(sessionId), _strand(context.get_executor())
+	: _sessionId(sessionId),
+	_socket(std::move(socket)),
+	_strand(context.get_executor()),
+	_receiver(std::make_shared<PacketReceiver>(_socket, _strand)),
+	_sender(std::make_shared<PacketSender>(_socket, _strand))
 {
 	std::cout << "[Session] Constructed in context: " << &context << std::endl;
+}
+UserSession::~UserSession()
+{
+	std::cout << "[Session] Destory in context: " << std::endl;
 }
 
 void UserSession::StartSession()
 {
-	DoRead();
+	auto self = shared_from_this();
+
+	_receiver->Start(
+		[this, self](const Messages::MessageWrapper& msg) {
+			HandleMessage(msg);
+		},
+		[this, self]() {
+			OnDisconnected();
+		});
 }
 
-void UserSession::DoRead()
+void UserSession::Send(const std::string& msg)
 {
-	auto self = shared_from_this();
-	_socket.async_read_some(
-		boost::asio::buffer(_buffer),
-		boost::asio::bind_executor(_strand,
-			[this, self](boost::system::error_code ec, std::size_t length)
-			{
-				if (!ec)
-				{
-					std::string received(_buffer.data(), length);
-					std::cout << "[Recv] " << received << std::endl;
-					HandleCommand(received);
-					DoRead();
-				}
-				else
-				{
-					OnDisconnected();
-				}
-			}));
+	if(_sender)
+		_sender->Send(msg);
 }
 
 void UserSession::OnDisconnected()
 {
 	std::cout << "[Session] Disconnected ID: " << _sessionId << std::endl;
+
+	boost::system::error_code ec;
+	_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+	_socket.close(ec);  // 연결 종료
+
 	UserSessionManager::Instance().RemoveSession(_sessionId);
+
+	if (_receiver)
+	{
+		_receiver->Stop();  // ✅ Stop 시 람다 클리어 처리 필요
+		_receiver = nullptr;
+	}
+	if (_sender)
+	{
+		_sender->Stop();
+		_sender = nullptr;
+	}	
 }
 
-void UserSession::Send(const std::string& msg)
+void UserSession::HandleMessage(const Messages::MessageWrapper& msg)
 {
-	auto self = shared_from_this();
-	boost::asio::post(_strand, [this, self, msg]()
-		{
-			bool writing = !_sendQueue.empty();
-			_sendQueue.push_back(msg);
-			if (!writing)
-				DoWrite(_sendQueue.front());
-		});
-}
-
-
-void UserSession::DoWrite(const std::string& msg)
-{
-	auto self = shared_from_this();
-	boost::asio::async_write(_socket, boost::asio::buffer(msg),
-		boost::asio::bind_executor(_strand,
-			[this, self](boost::system::error_code ec, std::size_t /*length*/)
-			{
-				if (!ec)
-				{
-					_sendQueue.pop_front();
-					if (!_sendQueue.empty())
-						DoWrite(_sendQueue.front());
-				}
-			}));
-}
-
-void UserSession::HandleCommand(const std::string& command)
-{
-	g_dispatcher.Dispatch(command);
+	if (msg.has_connected_response())
+	{
+		std::cout << "[Proto] ConnectedResponse index: "
+			<< msg.connected_response().index() << std::endl;
+	}
+	else if (msg.has_keep_alive_request())
+	{
+		std::cout << "[Proto] KeepAliveRequest received" << std::endl;
+	}
 }

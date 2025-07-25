@@ -1,5 +1,5 @@
 
-
+#include <boost/endian/conversion.hpp> // 필수
 
 #include "DummyTcpClient.h"
 
@@ -15,8 +15,15 @@ DummyTcpClient::DummyTcpClient(boost::asio::io_context& io_context, const std::s
 			if (!ec)
 			{
 				std::cout << "[Client] Connected to server.\n";
-				auto data = std::make_shared<std::string>("Hello Server!\n");
-				Send(data);
+				//auto data = std::make_shared<std::string>("Hello Server!\n");
+				// 메시지 보내기
+				{
+					auto messageWrapper = std::make_shared<Messages::MessageWrapper>();
+					auto* rquest = messageWrapper->mutable_connected_response();
+					rquest->set_index(1);
+
+					SendProto(messageWrapper);
+				}
 				DoRead();
 			}
 			else
@@ -36,30 +43,26 @@ void DummyTcpClient::Send(std::shared_ptr<std::string> msg)
 		});
 }
 
-void DummyTcpClient::SendProto(const Messages::MessageWrapper& wrapper)
+void DummyTcpClient::SendProto(const std::shared_ptr<Messages::MessageWrapper> msg)
 {
-	//// 1. 직렬화
-	std::string serializedData;
-	if (!wrapper.SerializeToString(&serializedData))
+	std::string payload;
+	if (!msg->SerializeToString(&payload))
 	{
-		std::cerr << "[Client] Failed to serialize protobuf message.\n";
+		std::cerr << "[Client] Failed to serialize.\n";
 		return;
 	}
 
-	// 2. 메시지 길이 prefix 추가
-	uint32_t size = static_cast<uint32_t>(serializedData.size());
-	std::string packet;
-	packet.resize(4); // 4바이트 길이 공간
-	packet[0] = (size >> 0) & 0xFF;
-	packet[1] = (size >> 8) & 0xFF;
-	packet[2] = (size >> 16) & 0xFF;
-	packet[3] = (size >> 24) & 0xFF;
-	packet += serializedData;
+	uint32_t size = static_cast<uint32_t>(payload.size());
+	boost::endian::native_to_big_inplace(size); // 네트워크 바이트 순서
 
-	// 3. 전송
-	auto data = std::make_shared<std::string>(std::move(packet));
-	boost::asio::async_write(_socket, boost::asio::buffer(*data),
-		[data](boost::system::error_code ec, std::size_t /*length*/)
+	// 전체 메시지 = [4바이트 크기] + [protobuf payload]
+	std::string fullMessage(reinterpret_cast<char*>(&size), sizeof(size));
+	fullMessage += payload;
+
+	auto sendData = std::make_shared<std::string>(std::move(fullMessage));
+
+	boost::asio::async_write(_socket, boost::asio::buffer(*sendData),
+		[sendData](boost::system::error_code ec, std::size_t)
 		{
 			if (ec)
 				std::cerr << "[Client] Send failed: " << ec.message() << "\n";

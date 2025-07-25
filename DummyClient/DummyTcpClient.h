@@ -6,8 +6,6 @@
 #include "./DTO/message.pb.h"
 
 
-
-
 using boost::asio::ip::tcp;
 
 class DummyTcpClient
@@ -15,7 +13,7 @@ class DummyTcpClient
 public:
 	DummyTcpClient(boost::asio::io_context& io_context, const std::string& host, uint16_t port);
 	void Send(std::shared_ptr<std::string> msg);	
-	void SendProto(const Messages::MessageWrapper& wrapper);
+	void SendProto(const std::shared_ptr<Messages::MessageWrapper> msg);
 
 private:
 	void DoRead();	

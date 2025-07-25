@@ -45,6 +45,15 @@
     <ClCompile Include="World\Monster\MonsterThreadPool.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DTO\message.pb.cc">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Session\Accessor\PacketSender.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Session\Accessor\PacketReceiver.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Session\TcpAcceptor.h">
@@ -72,6 +81,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="WorldServer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DTO\message.pb.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Session\Accessor\PacketSender.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Session\Accessor\PacketReceiver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
