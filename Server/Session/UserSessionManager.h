@@ -13,12 +13,11 @@ public:
         return instance;
     }
 
-    uint64_t AddSession(std::shared_ptr<UserSession> session)
+    uint64_t AddSession(uint64_t sessionId, std::shared_ptr<UserSession> session)
     {
-        std::lock_guard<std::mutex> lock(_mutex);
-        uint64_t id = GenerateId();
-        _sessions[id] = session;
-        return id;
+        std::lock_guard<std::mutex> lock(_mutex);        
+        _sessions[sessionId] = session;
+        return sessionId;
     }
 
     void RemoveSession(uint64_t id)
@@ -44,17 +43,18 @@ public:
                 session->Send(message);
         }
     }
-
-private:
-    UserSessionManager() = default;
-    ~UserSessionManager() = default;
-
     uint64_t GenerateId()
     {
         return ++_lastId;
     }
 
+private:
+    UserSessionManager() = default;
+    ~UserSessionManager() = default;
+
+    
+
     std::unordered_map<uint64_t, std::shared_ptr<UserSession>> _sessions;
     std::mutex _mutex;
-    uint64_t _lastId = 0;
+    std::atomic<uint64_t> _lastId = 0;
 };

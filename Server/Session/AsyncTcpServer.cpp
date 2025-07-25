@@ -24,11 +24,15 @@ void AsyncTcpServer::Accept()
             if (!ec)
             {
                 std::cout << "[Accept] Socket accepted!" << std::endl;
+                uint64_t sessionId = UserSessionManager::Instance().GenerateId();
 
-                auto session = std::make_shared<UserSession>(std::move(socket));
-                uint64_t id = UserSessionManager::Instance().AddSession(session);
-                std::cout << "[Server] User connected. ID: " << id << std::endl;
-                session->Start();
+                // 🎯 다른 io_context로 분산
+                boost::asio::io_context& ctx = _ioPool.GetNextIoContext();
+
+                auto session = std::make_shared<UserSession>(sessionId, std::move(socket), ctx);
+                UserSessionManager::Instance().AddSession(sessionId, session);
+                std::cout << "[Server] User connected. sessionId: " << sessionId << std::endl;
+                session->StartSession();
             }
             else
             {

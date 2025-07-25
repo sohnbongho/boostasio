@@ -147,7 +147,6 @@
     <ClInclude Include="Session\IoContextPool.h" />
     <ClInclude Include="Session\UserSession.h" />
     <ClInclude Include="Session\UserSessionManager.h" />
-    <ClInclude Include="Session\UserWorkerThread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

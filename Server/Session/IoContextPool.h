@@ -50,14 +50,14 @@ public:
 
     boost::asio::io_context& GetNextIoContext()
     {
-        auto& ctx = *_ioContexts[_nextIndex];
-        _nextIndex = (_nextIndex + 1) % _ioContexts.size();
-        return ctx;
+        std::size_t index = _nextIndex.fetch_add(1) % _ioContexts.size(); 
+        return *_ioContexts[index];
     }
-    std::size_t _nextIndex = 0;
+    
 
 private:
     std::vector<std::shared_ptr<boost::asio::io_context>> _ioContexts;
     std::vector<boost::asio::executor_work_guard<boost::asio::io_context::executor_type>> _workGuards; // ✅ work guard
     std::vector<std::thread> _threads;
+    std::atomic<std::size_t> _nextIndex = 0;
 };
