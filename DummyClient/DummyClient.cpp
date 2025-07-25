@@ -1,4 +1,5 @@
-﻿#include <boost/asio/io_context.hpp>
+﻿
+#include <boost/asio/io_context.hpp>
 #include "DummyTcpClient.h"
 
 int main()
@@ -16,7 +17,7 @@ int main()
         while (std::getline(std::cin, input))
         {
             auto data = std::make_shared<std::string>(input + "\n");
-            client.Send(data);
+            //client.Send(data);
         }
 
         ioThread.join();
