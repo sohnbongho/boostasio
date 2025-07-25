@@ -35,7 +35,7 @@ public:
     }
 
     void Broadcast(const std::string& message)
-    {
+    {asdasd
         std::lock_guard<std::mutex> lock(_mutex);
         for (auto& [id, session] : _sessions)
         {

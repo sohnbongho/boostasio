@@ -9,20 +9,32 @@ AsyncTcpServer::AsyncTcpServer(IoContextPool& ioPool, short port)
     : _ioPool(ioPool),
     _acceptor(ioPool.GetNextIoContext(), tcp::endpoint(tcp::v4(), port))
 {
+    std::cout << "[Server] Acceptor open? " << std::boolalpha << _acceptor.is_open() << std::endl;
     Accept();
 }
 
 void AsyncTcpServer::Accept()
 {
+    std::cout << "[Accept] Waiting for connection..." << std::endl;
+
     _acceptor.async_accept([this](boost::system::error_code ec, tcp::socket socket)
         {
+            std::cout << "[Accept] Handler entered" << std::endl;
+
             if (!ec)
             {
+                std::cout << "[Accept] Socket accepted!" << std::endl;
+
                 auto session = std::make_shared<UserSession>(std::move(socket));
                 uint64_t id = UserSessionManager::Instance().AddSession(session);
                 std::cout << "[Server] User connected. ID: " << id << std::endl;
                 session->Start();
             }
-            Accept();
+            else
+            {
+                std::cerr << "[Accept] Error: " << ec.message() << std::endl;
+            }
+
+            Accept(); // 재귀 호출
         });
 }

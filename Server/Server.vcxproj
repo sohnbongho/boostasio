@@ -136,7 +136,6 @@
   <ItemGroup>
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Session\AsyncTcpServer.cpp" />
-    <ClCompile Include="Session\IoContextPool.cpp" />
     <ClCompile Include="Session\UserSession.cpp" />
   </ItemGroup>
   <ItemGroup>

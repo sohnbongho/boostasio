@@ -24,9 +24,6 @@
     <ClCompile Include="Session\UserSession.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Session\IoContextPool.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Session\AsyncTcpServer.h">
