@@ -1,22 +1,26 @@
-// async_tcp_server.cpp
-#include "AsyncTcpServer.h"
+Ôªø#include "AsyncTcpServer.h"
 #include "UserSession.h"
-#include "UserSessionManager.h"
+#include <iostream>
+
+using boost::asio::ip::tcp;
 
 AsyncTcpServer::AsyncTcpServer(boost::asio::io_context& io_context, short port)
-    : _acceptor(io_context, tcp::endpoint(tcp::v4(), port))
+    : _io_context(io_context),
+    _acceptor(io_context, tcp::endpoint(tcp::v4(), port))
 {
     Accept();
 }
+
 void AsyncTcpServer::Accept()
 {
-    _acceptor.async_accept(
-        [this](boost::system::error_code ec, tcp::socket socket)
+    _acceptor.async_accept([this](boost::system::error_code ec, tcp::socket socket)
         {
             if (!ec)
-            {                
-                UserSessionManager::Instance().CreateAndStartSession(std::move(socket));
+            {
+                auto session = std::make_shared<UserSession>(std::move(socket));
+                session->SetId(rand()); // Ïú†Ï†Ä ID Ìï†Îãπ (ÏûÑÏãú)
+                session->Start();
             }
-            Accept(); // ∞Ëº” ¥Ÿ¿Ω ≈¨∂Û¿Ãæ∆Æ πﬁ±‚
+            Accept();
         });
 }
