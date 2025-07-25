@@ -41,7 +41,7 @@
 *.dwo
 
 Server/.vs/*
-Server/Server/x64/*
+Server/WorldServer/x64/*
 
 DummyClient/x64/*
 

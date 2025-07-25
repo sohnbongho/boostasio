@@ -1,5 +1,5 @@
 ﻿#include "UserSession.h"
-#include "../Command/GameCommandDispatcher.h"
+#include "GameCommandDispatcher.h"
 #include <iostream>
 #include "UserSessionManager.h"
 

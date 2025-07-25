@@ -9,7 +9,7 @@ class DummyTcpClient
 {
 public:
 	DummyTcpClient(boost::asio::io_context& io_context, const std::string& host, uint16_t port)
-		: _socket(io_context)
+		: _socket(io_context), _buffer{}
 	{
 		tcp::resolver resolver(io_context);
 		auto endpoints = resolver.resolve(host, std::to_string(port));

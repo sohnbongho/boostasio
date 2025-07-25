@@ -1,7 +1,7 @@
 ﻿#include "AsyncTcpServer.h"
-#include "UserSession.h"
+#include "../Session/User/UserSession.h"
 #include <iostream>
-#include "UserSessionManager.h"
+#include "./User/UserSessionManager.h"
 
 using boost::asio::ip::tcp;
 
@@ -25,8 +25,6 @@ void AsyncTcpServer::Accept()
             {
                 std::cout << "[Accept] Socket accepted!" << std::endl;
                 uint64_t sessionId = UserSessionManager::Instance().GenerateId();
-
-                // 🎯 다른 io_context로 분산
                 boost::asio::io_context& ctx = _ioPool.GetNextIoContext();
 
                 auto session = std::make_shared<UserSession>(sessionId, std::move(socket), ctx);
