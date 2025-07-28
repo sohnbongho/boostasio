@@ -3,10 +3,10 @@
 #include <string>
 #include "../../Session/User/UserSession.h"
 
-class UserManager
+class ZoneUserManager
 {
 public:
-    void AddUser(std::shared_ptr<UserSession> user);
+    void Enter(std::shared_ptr<UserSession> user);
     void RemoveUser(uint64_t userId);
     void Tick();
     void Broadcast(const std::string& msg);

@@ -7,8 +7,8 @@ class ZoneManager
 public:
 	static ZoneManager& Instance();
 
-	void Init();
-	void Add(int zoneId, std::shared_ptr<ZoneController> zone);
+	void Load();
+	void Add(int mapId, int zoneId, std::shared_ptr<ZoneController> zone);
 
 	void Tick(int shardId, std::function<void(std::shared_ptr<ZoneController>)> fn);
 	int GenerateId() { return ++_zoneId; }
@@ -29,10 +29,5 @@ private:
 
 	int GetShardIndex(int zoneId);
 	Shard& GetShard(int sessionId);
-
-	int _zoneThreadCount = 1;
-
-
-
 };
 

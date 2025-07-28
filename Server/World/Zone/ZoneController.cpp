@@ -1,9 +1,9 @@
 #include "ZoneController.h"
 
-ZoneController::ZoneController(int id)
-	:_userManager(std::make_shared<UserManager>()), _id(id)
+ZoneController::ZoneController(int id, int mapId)
+	:_userManager(std::make_shared<ZoneUserManager>()), _id(id), _mapId(mapId)
 {
-	std::cout << "[ZoneController] ctor: " << _id << std::endl;
+	std::cout << "[ZoneController] ctor: mapId:" << _mapId << " id:" << _id << std::endl;
 }
 ZoneController::~ZoneController()
 {
@@ -14,5 +14,11 @@ ZoneController::~ZoneController()
 void ZoneController::Tick()
 {
 	std::cout << "[ZoneController] Tick() id: " << _id << std::endl;
+	if(_userManager)
+		_userManager->Tick();
+}
+
+void ZoneController::Load()
+{
 
 }

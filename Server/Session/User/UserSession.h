@@ -19,12 +19,15 @@ public:
 
     void Tick();
 
+    uint64_t GetUid() { return _userUId;}
+
 private:
     void OnDisconnected();
     void HandleMessage(const Messages::MessageWrapper& msg);
 
 private:
     uint64_t _sessionId;
+    uint64_t _userUId;
     boost::asio::ip::tcp::socket _socket;
     boost::asio::strand<boost::asio::io_context::executor_type> _strand;
 

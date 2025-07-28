@@ -21,27 +21,40 @@ ZoneManager::Shard& ZoneManager::GetShard(int zoneId)
 	return _shards[zoneId % ShardCount];
 }
 
-void ZoneManager::Init()
+void ZoneManager::Load()
 {
+	try 
 	{
-		int zoneId = GenerateId();
-		auto zone = std::make_shared<ZoneController>(zoneId);
-		Add(zoneId, zone);
+		{
+			int mapId = 1001;
+			int zoneId = GenerateId();
+			auto zone = std::make_shared<ZoneController>(zoneId, mapId);
+			zone->Load();
+			Add(mapId, zoneId, zone);
+		}
+		{
+			int mapId = 1002;
+			int zoneId = GenerateId();
+			auto zone = std::make_shared<ZoneController>(zoneId, mapId);
+			zone->Load();
+			Add(mapId, zoneId, zone);
+		}
+		{
+			int mapId = 1003;
+			int zoneId = GenerateId();
+			auto zone = std::make_shared<ZoneController>(zoneId, mapId);
+			zone->Load();
+			Add(mapId, zoneId, zone);
+		}
 	}
+	catch (std::exception& ex) 
 	{
-		int zoneId = GenerateId();
-		auto zone = std::make_shared<ZoneController>(zoneId);
-		Add(zoneId, zone);
-	}
-	{
-		int zoneId = GenerateId();
-		auto zone = std::make_shared<ZoneController>(zoneId);
-		Add(zoneId, zone);
+		std::cerr << "Exception: " << ex.what() << std::endl;
 	}
 	
 }
 
-void ZoneManager::Add(int zoneId, std::shared_ptr<ZoneController> zone)
+void ZoneManager::Add(int mapId, int zoneId, std::shared_ptr<ZoneController> zone)
 {
 	auto& shard = GetShard(zoneId);
 	std::lock_guard<std::mutex> lock(shard.mutex);

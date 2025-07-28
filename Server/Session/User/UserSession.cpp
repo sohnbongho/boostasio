@@ -15,6 +15,9 @@ UserSession::UserSession(uint64_t sessionId, boost::asio::ip::tcp::socket&& sock
 	_receiver(std::make_shared<PacketReceiver>(_socket, _strand)),
 	_sender(std::make_shared<PacketSender>(_socket, _strand))
 {
+	// TODO: 임의로 처리
+	_userUId = sessionId;
+
 	std::cout << "[Session] Constructed in context: " << &context << std::endl;
 }
 UserSession::~UserSession()
