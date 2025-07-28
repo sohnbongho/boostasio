@@ -8,6 +8,8 @@
 #include "./Session/User/GameCommandDispatcher.h"
 
 #include "WorldServer.h"
+#include "./Thread/TickSchedulerManager.h"
+#include "./World/Zone/ZoneManager.h"
 
 
 MonsterThreadPool g_monsterPool(2);
@@ -15,31 +17,28 @@ GameCommandDispatcher g_dispatcher;
 
 void WorldServer::Run()
 {
-    try
-    {
-        IoContextPool userPool(2);
-        TcpAcceptor userServer(userPool, 12345); // 반드시 Accept()를 시작해야 함
+	try
+	{
+		auto port = 12345;
+		auto ioContextCount = 1;
+		auto zoneThreadCount = ZoneManager::Instance().ShardCount;
 
-        /*g_monsterPool.AddMonster(std::make_shared<MonsterObject>(1, "Goblin"));
-        g_monsterPool.AddMonster(std::make_shared<MonsterObject>(2, "Orc"));
+		ZoneManager::Instance().Init();
+		IoContextPool userPool(ioContextCount);
+		TcpAcceptor userServer(userPool, port);
+		TickSchedulerManager tickScheduler(userPool, zoneThreadCount);
 
-        g_dispatcher.RegisterCommand("CHAT", [](const std::vector<std::string>& args) {
-            for (const auto& arg : args)
-                std::cout << arg << " ";
-            std::cout << std::endl;
-            });
+		tickScheduler.Start();
 
-        g_monsterPool.Start();*/
+		std::cout << "[Main] Starting IoContext Pool\n";
+		userPool.Run();
+		std::cout << "[Main] End IoContext Pool\n";
 
-        std::cout << "[Main] Starting IoContext Pool\n";
-        userPool.Run(); 
-        std::cout << "[Main] End IoContext Pool\n";
-
-        g_monsterPool.Stop();
-        userPool.Stop();
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << "Exception: " << e.what() << std::endl;
-    }
+		g_monsterPool.Stop();
+		userPool.Stop();
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "Exception: " << e.what() << std::endl;
+	}
 }

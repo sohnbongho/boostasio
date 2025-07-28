@@ -28,7 +28,7 @@ void TcpAcceptor::Accept()
                 boost::asio::io_context& ctx = _ioPool.GetNextIoContext();
 
                 auto session = std::make_shared<UserSession>(sessionId, std::move(socket), ctx);
-                UserSessionShardManager::Instance().AddSession(sessionId, session);
+                UserSessionShardManager::Instance().Add(sessionId, session);
                 std::cout << "[Server] User connected. sessionId: " << sessionId << std::endl;
                 session->StartSession();
             }

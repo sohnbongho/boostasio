@@ -20,6 +20,8 @@ UserSession::UserSession(uint64_t sessionId, boost::asio::ip::tcp::socket&& sock
 UserSession::~UserSession()
 {
 	std::cout << "[Session] Destory in context: " << std::endl;
+	_receiver = nullptr;
+	_sender = nullptr;
 }
 
 void UserSession::StartSession()
@@ -37,7 +39,7 @@ void UserSession::StartSession()
 
 void UserSession::Send(const std::string& msg)
 {
-	if(_sender)
+	if (_sender)
 		_sender->Send(msg);
 }
 
@@ -52,20 +54,19 @@ void UserSession::OnDisconnected()
 
 	boost::system::error_code ec;
 	_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
-	_socket.close(ec);  // 연결 종료
-
-	UserSessionShardManager::Instance().RemoveSession(_sessionId);
+	_socket.close(ec);  // 연결 종료	
 
 	if (_receiver)
 	{
-		_receiver->Stop();  // ✅ Stop 시 람다 클리어 처리 필요
+		_receiver->Stop();
 		_receiver = nullptr;
 	}
 	if (_sender)
 	{
 		_sender->Stop();
 		_sender = nullptr;
-	}	
+	}
+	UserSessionShardManager::Instance().Remove(_sessionId);
 }
 
 void UserSession::HandleMessage(const Messages::MessageWrapper& msg)

@@ -54,6 +54,18 @@
     <ClCompile Include="Session\Accessor\PacketReceiver.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Thread\TickSchedulerManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Zone\ZoneController.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\User\UserManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Zone\ZoneManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Session\TcpAcceptor.h">
@@ -90,6 +102,18 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Session\Accessor\PacketReceiver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\TickSchedulerManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Zone\ZoneController.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\User\UserManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Zone\ZoneManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

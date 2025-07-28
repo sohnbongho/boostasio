@@ -1,0 +1,18 @@
+#pragma once
+#include <memory>
+#include <string>
+#include "../../Session/User/UserSession.h"
+
+class UserManager
+{
+public:
+    void AddUser(std::shared_ptr<UserSession> user);
+    void RemoveUser(uint64_t userId);
+    void Tick();
+    void Broadcast(const std::string& msg);
+
+private:
+    std::unordered_map<uint64_t, std::shared_ptr<UserSession>> _users;
+};
+
+

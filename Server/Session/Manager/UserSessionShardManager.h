@@ -12,25 +12,23 @@ class UserSessionShardManager
 public:
 	static UserSessionShardManager& Instance();
 
-	void AddSession(uint64_t sessionId, std::shared_ptr<UserSession> session);
-	void RemoveSession(uint64_t sessionId);
-	std::shared_ptr<UserSession> GetSession(uint64_t sessionId);
-	void TickAll();
-	void TickShard(int shardId);
-	uint64_t GenerateId() { return _userId++; }
+	void Add(uint64_t sessionId, std::shared_ptr<UserSession> session);
+	void Remove(uint64_t sessionId);
+	std::shared_ptr<UserSession> Get(uint64_t sessionId);		
+	
+	uint64_t GenerateId() { return _userSessionId++; }
 
 private:
 	UserSessionShardManager();
-	static const int SHARD_COUNT = 4;
+	static const int ShardCount = 4;
 
 	struct Shard {
 		std::mutex mutex;
 		std::unordered_map<uint64_t, std::shared_ptr<UserSession>> sessions;		
 	};
 
-	std::array<Shard, SHARD_COUNT>  _shards;
-	std::atomic<uint64_t > _userId;
-
+	std::array<Shard, ShardCount>  _shards;
+	std::atomic<uint64_t > _userSessionId;
 
 	Shard& GetShard(uint64_t sessionId);
 };

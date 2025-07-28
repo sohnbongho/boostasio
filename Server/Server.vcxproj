@@ -138,6 +138,8 @@
     <ClCompile Include="DTO\message.pb.cc" />
     <ClCompile Include="Session\Accessor\PacketReceiver.cpp" />
     <ClCompile Include="Session\Accessor\PacketSender.cpp" />
+    <ClCompile Include="Thread\TickSchedulerManager.cpp" />
+    <ClCompile Include="World\User\UserManager.cpp" />
     <ClCompile Include="WorldServer.cpp" />
     <ClCompile Include="World\Monster\MonsterCommandQueue.cpp" />
     <ClCompile Include="World\Monster\MonsterObject.cpp" />
@@ -148,11 +150,15 @@
     <ClCompile Include="Session\User\UserSession.cpp" />
     <ClCompile Include="Session\Manager\UserSessionShardManager.cpp" />
     <ClCompile Include="World\Monster\MonsterThreadPool.cpp" />
+    <ClCompile Include="World\Zone\ZoneController.cpp" />
+    <ClCompile Include="World\Zone\ZoneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DTO\message.pb.h" />
     <ClInclude Include="Session\Accessor\PacketReceiver.h" />
     <ClInclude Include="Session\Accessor\PacketSender.h" />
+    <ClInclude Include="Thread\TickSchedulerManager.h" />
+    <ClInclude Include="World\User\UserManager.h" />
     <ClInclude Include="WorldServer.h" />
     <ClInclude Include="World\Monster\MonsterCommandQueue.h" />
     <ClInclude Include="World\Monster\MonsterObject.h" />
@@ -162,6 +168,8 @@
     <ClInclude Include="Session\User\GameCommandDispatcher.h" />
     <ClInclude Include="Session\User\UserSession.h" />
     <ClInclude Include="Session\Manager\UserSessionShardManager.h" />
+    <ClInclude Include="World\Zone\ZoneController.h" />
+    <ClInclude Include="World\Zone\ZoneManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
