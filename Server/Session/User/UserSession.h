@@ -17,6 +17,8 @@ public:
     void StartSession();
     void Send(const std::string& msg);
 
+    void Tick();
+
 private:
     void OnDisconnected();
     void HandleMessage(const Messages::MessageWrapper& msg);

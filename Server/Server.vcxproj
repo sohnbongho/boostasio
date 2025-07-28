@@ -146,7 +146,7 @@
     <ClCompile Include="Session\IoContextPool.cpp" />
     <ClCompile Include="Session\User\GameCommandDispatcher.cpp" />
     <ClCompile Include="Session\User\UserSession.cpp" />
-    <ClCompile Include="Session\User\UserSessionManager.cpp" />
+    <ClCompile Include="Session\Manager\UserSessionShardManager.cpp" />
     <ClCompile Include="World\Monster\MonsterThreadPool.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,7 +161,7 @@
     <ClInclude Include="Session\IoContextPool.h" />
     <ClInclude Include="Session\User\GameCommandDispatcher.h" />
     <ClInclude Include="Session\User\UserSession.h" />
-    <ClInclude Include="Session\User\UserSessionManager.h" />
+    <ClInclude Include="Session\Manager\UserSessionShardManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

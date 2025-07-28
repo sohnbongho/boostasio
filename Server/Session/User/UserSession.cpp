@@ -1,6 +1,6 @@
 ﻿#include "UserSession.h"
 #include "GameCommandDispatcher.h"
-#include "UserSessionManager.h"
+#include "../Manager/UserSessionShardManager.h"
 #include "../Accessor/PacketReceiver.h"
 #include "../Accessor/PacketSender.h"
 
@@ -41,6 +41,11 @@ void UserSession::Send(const std::string& msg)
 		_sender->Send(msg);
 }
 
+void UserSession::Tick()
+{
+	std::cout << "[Session] Tick: " << _sessionId << std::endl;
+}
+
 void UserSession::OnDisconnected()
 {
 	std::cout << "[Session] Disconnected ID: " << _sessionId << std::endl;
@@ -49,7 +54,7 @@ void UserSession::OnDisconnected()
 	_socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
 	_socket.close(ec);  // 연결 종료
 
-	UserSessionManager::Instance().RemoveSession(_sessionId);
+	UserSessionShardManager::Instance().RemoveSession(_sessionId);
 
 	if (_receiver)
 	{

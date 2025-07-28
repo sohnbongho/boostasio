@@ -30,7 +30,7 @@
     <ClCompile Include="Session\User\GameCommandDispatcher.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Session\User\UserSessionManager.cpp">
+    <ClCompile Include="Session\Manager\UserSessionShardManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="World\Monster\MonsterCommandQueue.cpp">
@@ -62,7 +62,7 @@
     <ClInclude Include="Session\User\UserSession.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Session\User\UserSessionManager.h">
+    <ClInclude Include="Session\Manager\UserSessionShardManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Session\IoContextPool.h">
