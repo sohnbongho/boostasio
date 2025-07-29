@@ -1,5 +1,9 @@
 # 🚀 Boost.Asio MMO Server - Protobuf 설정 가이드
 
+Boost.Asio를 이용한 C++ 서버 만들기 
+- boost 1.88
+- google protobuffer
+
 이 문서는 `vcpkg`를 이용해 Protobuf를 설치하고 C++ 프로젝트에 연동하는 방법을 안내합니다.
 
 ---
