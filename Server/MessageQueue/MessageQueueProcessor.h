@@ -13,6 +13,8 @@ public:
 
 	MessageQueueProcessor() = default;
 
+	~MessageQueueProcessor();
+
 	void Start(MessageQueueHandler onMessage);
 
 	void Enqueue(std::shared_ptr<IInternalMessage> msg);

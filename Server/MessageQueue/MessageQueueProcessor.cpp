@@ -1,5 +1,9 @@
 #include "MessageQueueProcessor.h"
 
+MessageQueueProcessor::~MessageQueueProcessor() 
+{
+	_onMessage = nullptr;
+}
 
 void MessageQueueProcessor::Start(MessageQueueHandler onMessage)
 {

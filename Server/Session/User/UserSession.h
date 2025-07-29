@@ -25,6 +25,7 @@ public:
 private:
     void OnDisconnected();
     void HandleMessage(const Messages::MessageWrapper& msg);
+    void OnRecvHandleMessage(std::shared_ptr<IInternalMessage> message);
 
 private:
     uint64_t _sessionId;

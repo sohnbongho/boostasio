@@ -1,9 +1,9 @@
 #pragma once
-
+#include <iostream>
 
 enum  InternalMessageType
 {
-	EnterRoomReq = 1,
+	EnterRoomReq = 1001,
 };
 
 class IInternalMessage
@@ -29,6 +29,11 @@ protected:
 class EnterRoomReuqest : public IInternalMessage
 {
 public:
+	virtual ~EnterRoomReuqest()
+	{
+		std::cout << "~EnterRoomReuqest" << std::endl;
+	}
+
 	InternalMessageType GetMessageType() const override
 	{
 		return InternalMessageType::EnterRoomReq;

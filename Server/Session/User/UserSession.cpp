@@ -20,6 +20,11 @@ UserSession::UserSession(uint64_t sessionId, boost::asio::ip::tcp::socket&& sock
 	_userUId = sessionId;
 
 	std::cout << "[Session] Constructed in context: " << &context << std::endl;
+
+	_messageQueueProcessor->Start(
+		[this](std::shared_ptr<IInternalMessage>  msg) {
+			OnRecvHandleMessage(msg);
+		});
 }
 UserSession::~UserSession()
 {
@@ -93,4 +98,9 @@ void UserSession::HandleMessage(const Messages::MessageWrapper& msg)
 	{
 		std::cout << "[Proto] KeepAliveRequest received" << std::endl;
 	}
+}
+
+void UserSession::OnRecvHandleMessage(std::shared_ptr<IInternalMessage> message)
+{
+	std::cout << "OnRecvHandleMessage type:" << message->GetMessageType() << std::endl;
 }
