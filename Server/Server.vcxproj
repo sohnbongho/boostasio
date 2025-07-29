@@ -140,7 +140,7 @@
     <ClCompile Include="Session\Accessor\PacketReceiver.cpp" />
     <ClCompile Include="Session\Accessor\PacketSender.cpp" />
     <ClCompile Include="Thread\TickSchedulerManager.cpp" />
-    <ClCompile Include="World\User\ZoneUserManager.cpp" />
+    <ClCompile Include="Session\User\System\UserMessageDispatcher.cpp" />
     <ClCompile Include="WorldServer.cpp" />
     <ClCompile Include="World\Monster\MonsterCommandQueue.cpp" />
     <ClCompile Include="World\Monster\MonsterObject.cpp" />
@@ -171,7 +171,7 @@
     <ClInclude Include="Session\Accessor\PacketReceiver.h" />
     <ClInclude Include="Session\Accessor\PacketSender.h" />
     <ClInclude Include="Thread\TickSchedulerManager.h" />
-    <ClInclude Include="World\User\ZoneUserManager.h" />
+    <ClInclude Include="Session\User\System\UserMessageDispatcher.h" />
     <ClInclude Include="WorldServer.h" />
     <ClInclude Include="World\Monster\MonsterCommandQueue.h" />
     <ClInclude Include="World\Monster\MonsterObject.h" />

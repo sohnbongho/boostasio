@@ -19,7 +19,7 @@ void ZoneUserComponent::Dispose()
 void ZoneUserComponent::Add(std::shared_ptr<UserSession> user)
 {
 	std::lock_guard<std::mutex> lock(_mutex);
-	_users[user->GetUid()] = user;
+	_users[user->GetUid()] = std::weak_ptr<UserSession>(user);;
 }
 
 void ZoneUserComponent::Remove(uint64_t userUid)

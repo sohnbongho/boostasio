@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "../World/Zone/ZoneController.h"
 
 enum  InternalMessageType
 {
@@ -48,11 +49,11 @@ public:
 	{
 		return InternalMessageType::EnterRoomRes;
 	}
-	EnterRoomResponse(int zoneId, uint64_t userSessionId)
-		: ZoneId(zoneId), UserSessionId(userSessionId)
+	EnterRoomResponse(int zoneId, std::shared_ptr<ZoneController> zone)
+		: ZoneId(zoneId), ZoneController(zone)
 	{
 	}
 
 	int ZoneId;
-	uint64_t UserSessionId;
+	std::shared_ptr<ZoneController> ZoneController;
 };

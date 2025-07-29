@@ -3,8 +3,8 @@
 #include <boost/asio.hpp>
 #include <memory>
 #include <string>
-#include "../User/ZoneUserManager.h"
 #include "../../ECS/Entity.h"
+#include "../../Session/User/UserSession.h"
 
 class ZoneController : public std::enable_shared_from_this<ZoneController>
 {

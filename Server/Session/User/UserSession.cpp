@@ -5,6 +5,8 @@
 #include <iostream>
 #include <memory>
 #include "../../World/ZoneManager/ZoneControllerManager.h"
+#include "System/UserMessageDispatcher.h"
+#include "Component/UserZoneInfoComponent.h"
 
 extern GameCommandDispatcher g_dispatcher;
 
@@ -14,12 +16,14 @@ UserSession::UserSession(uint64_t sessionId, boost::asio::ip::tcp::socket&& sock
 	_strand(context.get_executor()),
 	_receiver(std::make_shared<PacketReceiver>(_socket, _strand)),
 	_sender(std::make_shared<PacketSender>(_socket, _strand)),
-	_messageQueueProcessor(std::make_shared<MessageQueueProcessor>())
+	_messageQueueProcessor(std::make_shared<MessageQueueProcessor>()),
+	_ecsEntity(std::make_shared<Entity>())
 {
 	// TODO: 임의로 처리
 	_userUId = sessionId;
 
 	std::cout << "[Session] Constructed in context: " << &context << std::endl;
+	InitEcs();
 
 	_messageQueueProcessor->Start(
 		[this](std::shared_ptr<IInternalMessage>  msg) {
@@ -32,6 +36,18 @@ UserSession::~UserSession()
 	_receiver = nullptr;
 	_sender = nullptr;
 	_messageQueueProcessor = nullptr;
+	if (_ecsEntity)
+	{
+		_ecsEntity->Dispose();
+		_ecsEntity = nullptr;
+	}
+}
+
+void UserSession::InitEcs()
+{
+	_ecsEntity->AddComponent<UserZoneInfoComponent>(std::make_shared<UserZoneInfoComponent>());
+
+	_ecsEntity->AddSystem<UserMessageDispatcher>(std::make_shared<UserMessageDispatcher>());
 }
 
 void UserSession::StartSession()
@@ -56,7 +72,7 @@ void UserSession::Send(const std::string& msg)
 void UserSession::Tick()
 {
 	std::cout << "[Session] Tick: " << _sessionId << std::endl;
-	if(_messageQueueProcessor)
+	if (_messageQueueProcessor)
 		_messageQueueProcessor->Tick();
 }
 
@@ -92,7 +108,10 @@ void UserSession::HandleMessage(const Messages::MessageWrapper& msg)
 		std::cout << "[Proto] ConnectedResponse index: "
 			<< msg.connected_response().index() << std::endl;
 
-		std::shared_ptr<EnterRoomReuqest> message = std::make_shared< EnterRoomReuqest>(1, 1);
+		auto zoneId = 1;
+		auto sessionId = GetSessionId();
+
+		std::shared_ptr<EnterRoomReuqest> message = std::make_shared< EnterRoomReuqest>(zoneId, sessionId);
 		ZoneControllerManager::Instance().EnqueueMessage(message);
 	}
 	else if (msg.has_keep_alive_request())
@@ -101,13 +120,21 @@ void UserSession::HandleMessage(const Messages::MessageWrapper& msg)
 	}
 }
 
-void UserSession::OnRecvHandleMessage(std::shared_ptr<IInternalMessage> message)
-{
-	std::cout << "OnRecvHandleMessage type:" << message->GetMessageType() << std::endl;
-}
 
 void UserSession::EnqueueMessage(std::shared_ptr<IInternalMessage> msg)
 {
 	if (_messageQueueProcessor)
 		_messageQueueProcessor->Enqueue(msg);
+}
+
+void UserSession::OnRecvHandleMessage(std::shared_ptr<IInternalMessage> message)
+{
+	std::cout << "OnRecvHandleMessage type:" << message->GetMessageType() << std::endl;
+
+	auto userDispatcher = _ecsEntity->GetSystem<UserMessageDispatcher>();
+	if (userDispatcher == nullptr)
+		return;
+
+	userDispatcher->OnRecvHandleMessage(_ecsEntity, message);
+
 }

@@ -26,7 +26,7 @@ void ZoneManagerMessageDispatcher::OnRecvEnterRoomReq(std::shared_ptr<Entity> ec
 	if (zoneComponent == nullptr)
 		return;
 
-	auto userSystem = ecsEntity->GetComponent<ZoneManagerUserSystem>();
+	auto userSystem = ecsEntity->GetSystem<ZoneManagerUserSystem>();
 	if (userSystem == nullptr)
 		return;
 
@@ -37,7 +37,6 @@ void ZoneManagerMessageDispatcher::OnRecvEnterRoomReq(std::shared_ptr<Entity> ec
 	if (user)
 	{
 		userSystem->AddUser(ecsEntity, zoneId, user);
-
 		auto message = std::make_shared<EnterRoomResponse>(zoneId, sessionId);
 		user->EnqueueMessage(message);
 	}

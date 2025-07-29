@@ -60,9 +60,6 @@
     <ClCompile Include="World\Zone\ZoneController.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="World\User\ZoneUserManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="World\ZoneManager\ZoneControllerManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -82,6 +79,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="World\ZoneManager\System\ZoneManagerUserSystem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Session\User\System\UserMessageDispatcher.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,9 +128,6 @@
     <ClInclude Include="World\Zone\ZoneController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="World\User\ZoneUserManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="World\ZoneManager\ZoneControllerManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -168,6 +165,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="World\ZoneManager\System\ZoneManagerUserSystem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Session\User\System\UserMessageDispatcher.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

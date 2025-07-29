@@ -5,7 +5,7 @@
 #include "../../../ECS/ISystem.h"
 #include "../../../Session/User/UserSession.h"
 
-class ZoneManagerUserSystem : ISystem
+class ZoneManagerUserSystem : public ISystem
 {
 public:
 	void AddUser(std::shared_ptr<Entity> ecsEntity, int zoneId, std::shared_ptr<UserSession> user);

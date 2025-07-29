@@ -8,6 +8,7 @@
 #include "../Accessor/PacketSender.h"
 #include "../../DTO/message.pb.h"
 #include "../../MessageQueue/MessageQueueProcessor.h"
+#include "../../ECS/Entity.h"
 
 class UserSession : public std::enable_shared_from_this<UserSession>
 {
@@ -28,6 +29,7 @@ private:
     void OnDisconnected();
     void HandleMessage(const Messages::MessageWrapper& msg);
     void OnRecvHandleMessage(std::shared_ptr<IInternalMessage> message);
+    void InitEcs();
 
 private:
     uint64_t _sessionId;
@@ -38,4 +40,5 @@ private:
     std::shared_ptr<PacketReceiver> _receiver;
     std::shared_ptr<PacketSender> _sender;
     std::shared_ptr<MessageQueueProcessor> _messageQueueProcessor;
+    std::shared_ptr<Entity> _ecsEntity;
 };
