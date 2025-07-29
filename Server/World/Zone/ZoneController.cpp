@@ -1,24 +1,48 @@
 #include "ZoneController.h"
+#include "Component/ZoneUserComponent.h"
+
 
 ZoneController::ZoneController(int id, int mapId)
-	:_userManager(std::make_shared<ZoneUserManager>()), _id(id), _mapId(mapId)
+	:_id(id),
+	_mapId(mapId),
+	_ecsEntity(std::make_shared<Entity>()),
+	_messageQueueProcessor(std::make_shared<MessageQueueProcessor>())
 {
 	std::cout << "[ZoneController] ctor: mapId:" << _mapId << " id:" << _id << std::endl;
+	InitEcs();
 }
 ZoneController::~ZoneController()
 {
 	std::cout << "[ZoneController] Destory in context: " << std::endl;
-	_userManager = nullptr;
+	_ecsEntity = nullptr;
 }
 
 void ZoneController::Tick()
 {
 	std::cout << "[ZoneController] Tick() id: " << _id << std::endl;
-	if(_userManager)
-		_userManager->Tick();
+	auto userComponent = _ecsEntity->GetComponent<ZoneUserComponent>();
+	if (userComponent)
+		userComponent->Tick();
+
+	if (_messageQueueProcessor)
+		_messageQueueProcessor->Tick();
+
 }
 
-void ZoneController::Load()
+void ZoneController::InitEcs()
+{
+	_ecsEntity->AddComponent<ZoneUserComponent>(std::make_shared<ZoneUserComponent>());
+}
+
+void ZoneController::AddUser(std::shared_ptr<UserSession> user)
+{
+	auto userComponent = _ecsEntity->GetComponent<ZoneUserComponent>();
+	if (userComponent == nullptr)
+		return;
+
+	userComponent->Add(user);
+}
+void ZoneController::Load() 
 {
 
 }

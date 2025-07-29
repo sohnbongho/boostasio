@@ -9,7 +9,8 @@
 
 #include "WorldServer.h"
 #include "./Thread/TickSchedulerManager.h"
-#include "./World/Zone/ZoneManager.h"
+#include "./World/ZoneManager/ZoneControllerManager.h"
+#include "Const/ConstInfo.h"
 
 
 MonsterThreadPool g_monsterPool(2);
@@ -21,9 +22,9 @@ void WorldServer::Run()
 	{
 		auto port = 12345;
 		auto ioContextCount = 1;
-		auto zoneThreadCount = ZoneManager::Instance().ShardCount;
+		auto zoneThreadCount = ConstInfo::ShardCount;
 
-		ZoneManager::Instance().Load();		
+		ZoneControllerManager::Instance().Load();		
 
 		IoContextPool userPool(ioContextCount);
 		TcpAcceptor userServer(userPool, port);

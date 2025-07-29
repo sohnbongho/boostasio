@@ -152,10 +152,20 @@
     <ClCompile Include="Session\Manager\UserSessionShardManager.cpp" />
     <ClCompile Include="World\Monster\MonsterThreadPool.cpp" />
     <ClCompile Include="World\Zone\ZoneController.cpp" />
-    <ClCompile Include="World\Zone\ZoneManager.cpp" />
+    <ClCompile Include="World\ZoneManager\ZoneControllerManager.cpp" />
+    <ClCompile Include="World\ZoneManager\Component\ZoneManagerComponent.cpp" />
+    <ClCompile Include="World\ZoneManager\System\ZoneManagerMapSystem.cpp" />
+    <ClCompile Include="World\ZoneManager\System\ZoneManagerMessageDispatcher.cpp" />
+    <ClCompile Include="World\Zone\Component\ZoneUserComponent.cpp" />
+    <ClCompile Include="World\ZoneManager\System\ZoneManagerUserSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Const\ConstInfo.h" />
     <ClInclude Include="DTO\message.pb.h" />
+    <ClInclude Include="ECS\IComponent.h" />
+    <ClInclude Include="ECS\Entity.h" />
+    <ClInclude Include="ECS\IDisposable.h" />
+    <ClInclude Include="ECS\ISystem.h" />
     <ClInclude Include="Model\IInternalMessage.h" />
     <ClInclude Include="MessageQueue\MessageQueueProcessor.h" />
     <ClInclude Include="Session\Accessor\PacketReceiver.h" />
@@ -172,7 +182,12 @@
     <ClInclude Include="Session\User\UserSession.h" />
     <ClInclude Include="Session\Manager\UserSessionShardManager.h" />
     <ClInclude Include="World\Zone\ZoneController.h" />
-    <ClInclude Include="World\Zone\ZoneManager.h" />
+    <ClInclude Include="World\ZoneManager\ZoneControllerManager.h" />
+    <ClInclude Include="World\ZoneManager\Component\ZoneManagerComponent.h" />
+    <ClInclude Include="World\ZoneManager\System\ZoneManagerMapSystem.h" />
+    <ClInclude Include="World\ZoneManager\System\ZoneManagerMessageDispatcher.h" />
+    <ClInclude Include="World\Zone\Component\ZoneUserComponent.h" />
+    <ClInclude Include="World\ZoneManager\System\ZoneManagerUserSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <memory>
-#include "../../World/Zone/ZoneManager.h"
+#include "../../World/ZoneManager/ZoneControllerManager.h"
 
 extern GameCommandDispatcher g_dispatcher;
 
@@ -56,7 +56,8 @@ void UserSession::Send(const std::string& msg)
 void UserSession::Tick()
 {
 	std::cout << "[Session] Tick: " << _sessionId << std::endl;
-	_messageQueueProcessor->Tick();
+	if(_messageQueueProcessor)
+		_messageQueueProcessor->Tick();
 }
 
 void UserSession::OnDisconnected()
@@ -92,7 +93,7 @@ void UserSession::HandleMessage(const Messages::MessageWrapper& msg)
 			<< msg.connected_response().index() << std::endl;
 
 		std::shared_ptr<EnterRoomReuqest> message = std::make_shared< EnterRoomReuqest>(1, 1);
-		ZoneManager::Instance().EnqueueMessage(message);
+		ZoneControllerManager::Instance().EnqueueMessage(message);
 	}
 	else if (msg.has_keep_alive_request())
 	{
@@ -103,4 +104,10 @@ void UserSession::HandleMessage(const Messages::MessageWrapper& msg)
 void UserSession::OnRecvHandleMessage(std::shared_ptr<IInternalMessage> message)
 {
 	std::cout << "OnRecvHandleMessage type:" << message->GetMessageType() << std::endl;
+}
+
+void UserSession::EnqueueMessage(std::shared_ptr<IInternalMessage> msg)
+{
+	if (_messageQueueProcessor)
+		_messageQueueProcessor->Enqueue(msg);
 }

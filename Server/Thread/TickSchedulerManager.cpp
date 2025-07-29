@@ -1,7 +1,7 @@
 #include "TickSchedulerManager.h"
 #include <boost/asio/post.hpp>
 #include "../Session/Manager/UserSessionShardManager.h"
-#include "../World/Zone/ZoneManager.h"
+#include "../World/ZoneManager/ZoneControllerManager.h"
 
 TickSchedulerManager::TickSchedulerManager(IoContextPool& ioPool, int zoneThreadCount)
     : _ioPool(ioPool)
@@ -36,7 +36,7 @@ void TickSchedulerManager::ScheduleNextZoneTick(int shardId)
     timer->async_wait([this, shardId, timer](const boost::system::error_code& ec) {
         if (ec) return;
 
-        ZoneManager::Instance().Tick(shardId, [](auto zone) {
+        ZoneControllerManager::Instance().Tick(shardId, [](auto zone) {
             zone->Tick();
             });
 

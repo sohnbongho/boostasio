@@ -4,25 +4,14 @@
 enum  InternalMessageType
 {
 	EnterRoomReq = 1001,
+	EnterRoomRes = 1002,
 };
 
 class IInternalMessage
 {
 public:
 	virtual ~IInternalMessage() = default; // 가상 소멸자 (중요)
-	virtual InternalMessageType GetMessageType() const = 0; // 순수 가상 함수	
-	void SetOnProcessed(std::function<void()> handler)
-	{
-		_onProcessed = std::move(handler);
-	}
-
-	void OnProcessed()
-	{
-		if (_onProcessed)
-			_onProcessed();
-	}
-protected:
-	std::function<void()> _onProcessed;
+	virtual InternalMessageType GetMessageType() const = 0; // 순수 가상 함수		
 };
 
 
@@ -38,11 +27,32 @@ public:
 	{
 		return InternalMessageType::EnterRoomReq;
 	}
-	EnterRoomReuqest(int zoneId, uint64_t userSeq)
-		: ZoneId(zoneId), UserSeq(userSeq)
+	EnterRoomReuqest(int zoneId, uint64_t userSessionId)
+		: ZoneId(zoneId), UserSessionId(userSessionId)
 	{
 	}
 
 	int ZoneId;
-	uint64_t UserSeq;
+	uint64_t UserSessionId;
+};
+
+class EnterRoomResponse : public IInternalMessage
+{
+public:
+	virtual ~EnterRoomResponse()
+	{
+		std::cout << "~EnterRoomResponse" << std::endl;
+	}
+
+	InternalMessageType GetMessageType() const override
+	{
+		return InternalMessageType::EnterRoomRes;
+	}
+	EnterRoomResponse(int zoneId, uint64_t userSessionId)
+		: ZoneId(zoneId), UserSessionId(userSessionId)
+	{
+	}
+
+	int ZoneId;
+	uint64_t UserSessionId;
 };

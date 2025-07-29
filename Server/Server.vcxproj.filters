@@ -63,10 +63,25 @@
     <ClCompile Include="World\User\ZoneUserManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="World\Zone\ZoneManager.cpp">
+    <ClCompile Include="World\ZoneManager\ZoneControllerManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MessageQueue\MessageQueueProcessor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ZoneManager\Component\ZoneManagerComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ZoneManager\System\ZoneManagerMapSystem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ZoneManager\System\ZoneManagerMessageDispatcher.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Zone\Component\ZoneUserComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ZoneManager\System\ZoneManagerUserSystem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,13 +131,43 @@
     <ClInclude Include="World\User\ZoneUserManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="World\Zone\ZoneManager.h">
+    <ClInclude Include="World\ZoneManager\ZoneControllerManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MessageQueue\MessageQueueProcessor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Model\IInternalMessage.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ZoneManager\Component\ZoneManagerComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\Entity.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\IDisposable.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\IComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Const\ConstInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS\ISystem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ZoneManager\System\ZoneManagerMapSystem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ZoneManager\System\ZoneManagerMessageDispatcher.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Zone\Component\ZoneUserComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ZoneManager\System\ZoneManagerUserSystem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

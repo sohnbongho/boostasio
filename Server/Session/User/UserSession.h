@@ -19,8 +19,10 @@ public:
     void Send(const std::string& msg);
 
     void Tick();
-
+    uint64_t GetSessionId() { return _sessionId;}
     uint64_t GetUid() { return _userUId;}
+
+    void EnqueueMessage(std::shared_ptr<IInternalMessage> msg);
 
 private:
     void OnDisconnected();

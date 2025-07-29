@@ -6,6 +6,7 @@
 #include <vector>
 #include <mutex>
 #include "../User/UserSession.h"
+#include "../../Const/ConstInfo.h"
 
 class UserSessionShardManager
 {
@@ -20,7 +21,7 @@ public:
 
 private:
 	UserSessionShardManager();
-	static const int ShardCount = 4;
+	static const int ShardCount = ConstInfo::ShardCount;
 
 	struct Shard {
 		std::mutex mutex;
