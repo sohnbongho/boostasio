@@ -39,3 +39,4 @@ std::shared_ptr<UserSession> UserSessionShardManager::Get(uint64_t sessionId)
 		return it->second;
 	return nullptr;
 }
+

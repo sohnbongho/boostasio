@@ -1,5 +1,15 @@
 #include "ZoneUserManager.h"
 
+ZoneUserManager::ZoneUserManager()
+	: _messageQueueProcessor(std::make_shared<MessageQueueProcessor>())
+{
+
+}
+ZoneUserManager::~ZoneUserManager() 
+{
+	_messageQueueProcessor = nullptr;
+}
+
 void ZoneUserManager::Enter(std::shared_ptr<UserSession> user)
 {
 	_users[user->GetUid()] = user;

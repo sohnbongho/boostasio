@@ -6,6 +6,8 @@
 class ZoneUserManager
 {
 public:
+    ZoneUserManager();
+    virtual ~ZoneUserManager();
     void Enter(std::shared_ptr<UserSession> user);
     void RemoveUser(uint64_t userId);
     void Tick();
@@ -13,6 +15,7 @@ public:
 
 private:
     std::unordered_map<uint64_t, std::shared_ptr<UserSession>> _users;
+    std::shared_ptr<MessageQueueProcessor> _messageQueueProcessor;
 };
 
 

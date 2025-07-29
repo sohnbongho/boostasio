@@ -1,10 +1,10 @@
 ﻿#include "UserSession.h"
 #include "GameCommandDispatcher.h"
 #include "../Manager/UserSessionShardManager.h"
-#include "../Accessor/PacketReceiver.h"
-#include "../Accessor/PacketSender.h"
 
 #include <iostream>
+#include <memory>
+#include "../../World/Zone/ZoneManager.h"
 
 extern GameCommandDispatcher g_dispatcher;
 
@@ -13,7 +13,8 @@ UserSession::UserSession(uint64_t sessionId, boost::asio::ip::tcp::socket&& sock
 	_socket(std::move(socket)),
 	_strand(context.get_executor()),
 	_receiver(std::make_shared<PacketReceiver>(_socket, _strand)),
-	_sender(std::make_shared<PacketSender>(_socket, _strand))
+	_sender(std::make_shared<PacketSender>(_socket, _strand)),
+	_messageQueueProcessor(std::make_shared<MessageQueueProcessor>())
 {
 	// TODO: 임의로 처리
 	_userUId = sessionId;
@@ -25,6 +26,7 @@ UserSession::~UserSession()
 	std::cout << "[Session] Destory in context: " << std::endl;
 	_receiver = nullptr;
 	_sender = nullptr;
+	_messageQueueProcessor = nullptr;
 }
 
 void UserSession::StartSession()
@@ -49,6 +51,7 @@ void UserSession::Send(const std::string& msg)
 void UserSession::Tick()
 {
 	std::cout << "[Session] Tick: " << _sessionId << std::endl;
+	_messageQueueProcessor->Tick();
 }
 
 void UserSession::OnDisconnected()
@@ -69,6 +72,10 @@ void UserSession::OnDisconnected()
 		_sender->Stop();
 		_sender = nullptr;
 	}
+	if (_messageQueueProcessor)
+	{
+		_messageQueueProcessor = nullptr;
+	}
 	UserSessionShardManager::Instance().Remove(_sessionId);
 }
 
@@ -78,6 +85,9 @@ void UserSession::HandleMessage(const Messages::MessageWrapper& msg)
 	{
 		std::cout << "[Proto] ConnectedResponse index: "
 			<< msg.connected_response().index() << std::endl;
+
+		std::shared_ptr<EnterRoomReuqest> message = std::make_shared< EnterRoomReuqest>(1, 1);
+		ZoneManager::Instance().EnqueueMessage(message);
 	}
 	else if (msg.has_keep_alive_request())
 	{

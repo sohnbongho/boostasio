@@ -7,6 +7,7 @@
 #include "../Accessor/PacketReceiver.h"
 #include "../Accessor/PacketSender.h"
 #include "../../DTO/message.pb.h"
+#include "../../MessageQueue/MessageQueueProcessor.h"
 
 class UserSession : public std::enable_shared_from_this<UserSession>
 {
@@ -33,4 +34,5 @@ private:
 
     std::shared_ptr<PacketReceiver> _receiver;
     std::shared_ptr<PacketSender> _sender;
+    std::shared_ptr<MessageQueueProcessor> _messageQueueProcessor;
 };

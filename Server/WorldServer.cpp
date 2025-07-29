@@ -23,7 +23,8 @@ void WorldServer::Run()
 		auto ioContextCount = 1;
 		auto zoneThreadCount = ZoneManager::Instance().ShardCount;
 
-		ZoneManager::Instance().Load();
+		ZoneManager::Instance().Load();		
+
 		IoContextPool userPool(ioContextCount);
 		TcpAcceptor userServer(userPool, port);
 		TickSchedulerManager tickScheduler(userPool, zoneThreadCount);
