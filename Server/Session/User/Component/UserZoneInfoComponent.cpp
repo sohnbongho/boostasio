@@ -1,8 +1,13 @@
 #include "UserZoneInfoComponent.h"
 
+UserZoneInfoComponent::~UserZoneInfoComponent() 
+{
+	Dispose();
+}
+
 void UserZoneInfoComponent::Dispose() 
 {
-
+	_zone = nullptr;
 }
 
 void UserZoneInfoComponent::SetZone(std::shared_ptr<ZoneController> zone) 

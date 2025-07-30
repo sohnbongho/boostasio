@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
+
 #include "../World/Zone/ZoneController.h"
+
+class ZoneController;
 
 enum  InternalMessageType
 {

@@ -9,6 +9,7 @@
 class UserZoneInfoComponent : public IComponent, public IDisposable
 {
 public:
+	virtual ~UserZoneInfoComponent();
 	void Dispose() override;
 
 	void SetZone(std::shared_ptr<ZoneController> zone);

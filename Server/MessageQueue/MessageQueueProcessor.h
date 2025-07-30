@@ -6,6 +6,8 @@
 #include <queue>
 #include "../Model/IInternalMessage.h"
 
+class IInternalMessage;
+
 class MessageQueueProcessor : public std::enable_shared_from_this<MessageQueueProcessor>
 {
 public:

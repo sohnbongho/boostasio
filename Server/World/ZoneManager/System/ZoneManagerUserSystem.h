@@ -8,6 +8,6 @@
 class ZoneManagerUserSystem : public ISystem
 {
 public:
-	void AddUser(std::shared_ptr<Entity> ecsEntity, int zoneId, std::shared_ptr<UserSession> user);
+	std::shared_ptr<ZoneController> AddUser(std::shared_ptr<Entity> ecsEntity, int zoneId, std::shared_ptr<UserSession> user);
 };
 

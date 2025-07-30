@@ -5,6 +5,10 @@
 #include <string>
 #include "../../ECS/Entity.h"
 #include "../../Session/User/UserSession.h"
+#include "../../MessageQueue/MessageQueueProcessor.h"
+
+class UserSession;
+class MessageQueueProcessor;
 
 class ZoneController : public std::enable_shared_from_this<ZoneController>
 {

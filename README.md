@@ -3,6 +3,7 @@
 Boost.Asio를 이용한 C++ 서버 만들기 
 - boost 1.88
 - google protobuffer
+- multi thread-pool(IOCotext)를 이용한 분산 처리
 
 이 문서는 `vcpkg`를 이용해 Protobuf를 설치하고 C++ 프로젝트에 연동하는 방법을 안내합니다.
 

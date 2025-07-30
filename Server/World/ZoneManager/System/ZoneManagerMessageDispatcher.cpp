@@ -36,8 +36,8 @@ void ZoneManagerMessageDispatcher::OnRecvEnterRoomReq(std::shared_ptr<Entity> ec
 	auto user = UserSessionShardManager::Instance().Get(sessionId);
 	if (user)
 	{
-		userSystem->AddUser(ecsEntity, zoneId, user);
-		auto message = std::make_shared<EnterRoomResponse>(zoneId, sessionId);
+		auto zone = userSystem->AddUser(ecsEntity, zoneId, user);
+		auto message = std::make_shared<EnterRoomResponse>(zoneId, zone);
 		user->EnqueueMessage(message);
 	}
 }

@@ -9,6 +9,10 @@
 #include "../../DTO/message.pb.h"
 #include "../../MessageQueue/MessageQueueProcessor.h"
 #include "../../ECS/Entity.h"
+#include "../../Model/IInternalMessage.h"
+
+class IInternalMessage;
+class MessageQueueProcessor;
 
 class UserSession : public std::enable_shared_from_this<UserSession>
 {

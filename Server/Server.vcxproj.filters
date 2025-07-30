@@ -84,6 +84,9 @@
     <ClCompile Include="Session\User\System\UserMessageDispatcher.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Session\User\Component\UserZoneInfoComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Session\TcpAcceptor.h">
@@ -168,6 +171,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Session\User\System\UserMessageDispatcher.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Session\User\Component\UserZoneInfoComponent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
